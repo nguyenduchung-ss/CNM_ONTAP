@@ -1,0 +1,32 @@
+<h1><%= item ? "Update" : "Add" %></h1>
+
+<% if (error) { %>
+<p><%= error %></p>
+<% } %>
+
+<form method="POST" enctype="multipart/form-data"
+action="<%= item ? '/edit/' + item.ticketId : '/add' %>">
+
+<input name="eventName" value="<%= item?.eventName || '' %>" placeholder="Event">
+<input name="location" value="<%= item?.location || '' %>" placeholder="Location">
+
+<select name="ticketType">
+<option>Standard</option>
+<option>VIP</option>
+<option>Student</option>
+</select>
+
+<input name="price" type="number" value="<%= item?.price || '' %>">
+<input name="availableQty" type="number" value="<%= item?.availableQty || '' %>">
+
+<input type="date" name="eventDate"
+value="<%= item?.eventDate ? item.eventDate.split('T')[0] : '' %>">
+
+<input type="file" name="image">
+
+<% if (item?.posterUrl) { %>
+<img src="<%= item.posterUrl %>" width="200">
+<% } %>
+
+<button>Save</button>
+</form>
