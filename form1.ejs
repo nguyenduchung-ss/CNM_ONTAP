@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Form vé sự kiện</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="form-page">
+    <h1><%= item ? "Cập nhật vé" : "Thêm vé mới" %></h1>
+
+    <% if (error) { %>
+        <p class="error-message"><%= error %></p>
+    <% } %>
+
+    <form class="book-form"
+        action="<%= item ? '/edit/' + item.ticketId : '/add' %>"
+        method="POST"
+        enctype="multipart/form-data">
+
+        <% if (!item) { %>
+            <label>Mã vé (tuỳ chọn)</label>
+            <input type="text" name="ticketId" placeholder="Nhập mã vé">
+        <% } %>
+
+        <label>Tên sự kiện</label>
+        <input type="text" name="eventName"
+            placeholder="Nhập tên sự kiện"
+            value="<%= item?.eventName || '' %>" required>
+
+        <label>Địa điểm</label>
+        <input type="text" name="location"
+            placeholder="Nhập địa điểm"
+            value="<%= item?.location || '' %>" required>
+
+        <label>Loại vé</label>
+        <select name="ticketType" required>
+            <option value="">-- Chọn loại vé --</option>
+            <option value="Standard" <%= item?.ticketType === "Standard" ? "selected" : "" %>>Standard</option>
+            <option value="VIP" <%= item?.ticketType === "VIP" ? "selected" : "" %>>VIP</option>
+            <option value="Student" <%= item?.ticketType === "Student" ? "selected" : "" %>>Student</option>
+        </select>
+
+        <label>Số lượng còn</label>
+        <input type="number" name="availableQty" min="0"
+            placeholder="Nhập số lượng"
+            value="<%= item?.availableQty || '' %>" required>
+
+        <label>Giá vé</label>
+        <input type="number" name="price" min="1"
+            placeholder="Nhập giá"
+            value="<%= item?.price || '' %>" required>
+
+        <label>Ngày tổ chức</label>
+        <input type="date" name="eventDate"
+            value="<%= item?.eventDate ? item.eventDate.split('T')[0] : '' %>" required>
+
+        <label>Poster</label>
+        <input type="file" name="image">
+
+        <% if (item?.posterUrl) { %>
+            <img src="<%= item.posterUrl %>" width="220" class="form-cover">
+        <% } %>
+
+        <button type="submit" class="btn btn-primary">
+            <%= item ? "Cập nhật" : "Thêm mới" %>
+        </button>
+    </form>
+
+    <br>
+    <a href="/tickets" class="btn">Quay lại danh sách</a>
+</body>
+
+</html>
