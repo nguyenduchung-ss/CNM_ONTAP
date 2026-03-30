@@ -1,0 +1,55 @@
+<h1>Event Tickets</h1>
+
+<form>
+<input name="keyword" value="<%= keyword %>">
+
+<select name="type">
+<option value="">All</option>
+<option>Standard</option>
+<option>VIP</option>
+<option>Student</option>
+</select>
+
+<button>Search</button>
+</form>
+
+<a href="/add">Add</a>
+
+<table border="1">
+<tr>
+<th>Name</th>
+<th>Location</th>
+<th>Date</th>
+<th>Type</th>
+<th>Qty</th>
+<th>Price</th>
+<th>Revenue</th>
+<th>Status</th>
+<th>Image</th>
+<th>Action</th>
+</tr>
+
+<% items.forEach(i => { %>
+<tr>
+<td><%= i.eventName %></td>
+<td><%= i.location %></td>
+<td><%= new Date(i.eventDate).toLocaleDateString() %></td>
+<td><%= i.ticketType %></td>
+<td><%= i.availableQty %></td>
+<td><%= i.price %></td>
+<td><%= i.revenue %></td>
+<td><%= i.status %></td>
+<td><img src="<%= i.posterUrl %>" width="80"></td>
+
+<td>
+<a href="/edit/<%= i.ticketId %>">Edit</a>
+<form method="POST" action="/delete/<%= i.ticketId %>">
+<button>X</button>
+</form>
+</td>
+</tr>
+<% }) %>
+
+</table>
+
+<h3>Total Revenue: <%= totalRevenue %></h3>
