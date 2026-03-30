@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sach sach</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <h1>Quan ly nha sach</h1>
+
+    <form method="GET" action="/books" class="toolbar">
+        <input type="text" name="keyword" placeholder="Tim gan dung theo ten sach hoac tac gia..." value="<%= keyword %>">
+        <button type="submit" class="btn">Tim</button>
+        <a href="/add" class="btn btn-primary">+ Them moi</a>
+    </form>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ten sach</th>
+                    <th>Tac gia</th>
+                    <th>The loai</th>
+                    <th>So luong ton</th>
+                    <th>Gia</th>
+                    <th>Gia tri ton kho</th>
+                    <th>Ngay tao</th>
+                    <th>Anh bia</th>
+                    <th>Thao tac</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (items.length === 0) { %>
+                    <tr>
+                        <td colspan="10">Khong co du lieu</td>
+                    </tr>
+                    <% } %>
+
+                        <% items.forEach((item) => { %>
+                            <tr>
+                                <td>
+                                    <%= item.itemId || item.bookId %>
+                                </td>
+                                <td>
+                                    <%= item.title %>
+                                </td>
+                                <td>
+                                    <%= item.author %>
+                                </td>
+                                <td>
+                                    <%= item.category %>
+                                </td>
+                                <td>
+                                    <%= item.unit_in_stock %>
+                                </td>
+                                <td>
+                                    <%= Number(item.price || 0).toLocaleString("vi-VN") %>
+                                </td>
+                                <td>
+                                    <%= Number(item.inventoryValue || 0).toLocaleString("vi-VN") %>
+                                </td>
+                                <td>
+                                    <%= item.createdAt %>
+                                </td>
+                                <td>
+                                    <% if (item.coverImageUrl) { %>
+                                        <img src="<%= item.coverImageUrl %>" width="80" alt="Anh bia" class="cover-image">
+                                        <% } else { %>
+                                            Khong co anh
+                                            <% } %>
+                                </td>
+                                <td>
+                                    <div class="row-actions">
+                                        <a href="/edit/<%= item.bookId %>" class="btn btn-sm">Sua</a>
+                                        <form action="/delete/<%= item.bookId %>" method="POST" style="display:inline;">
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Xoa?')">Xoa</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="summary">
+        Tong gia tri ton kho toan bo nha sach:
+        <strong><%= Number(totalInventoryValue || 0).toLocaleString("vi-VN") %></strong>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Form sach</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="form-page">
+    <h1><%= item ? "Cap nhat sach" : "Them sach moi" %></h1>
+
+    <% if (error) { %>
+        <p class="error-message"><%= error %></p>
+    <% } %>
+
+    <form class="book-form" action="<%= item ? '/edit/' + item.bookId : '/add' %>" method="POST" enctype="multipart/form-data">
+        <% if (!item) { %>
+            <input type="text" name="bookId" placeholder="Ma sach (tuy chon)">
+        <% } %>
+
+        <input type="text" name="title" placeholder="Ten sach" value="<%= item?.title || '' %>" required>
+
+        <input type="text" name="author" placeholder="Tac gia" value="<%= item?.author || '' %>" required>
+
+        <select name="category" required>
+            <option value="">-- Chon the loai --</option>
+            <option value="Tiểu thuyết" <%= item?.category === "Tiểu thuyết" ? "selected" : "" %>>Tieu thuyet</option>
+            <option value="CNTT" <%= item?.category === "CNTT" ? "selected" : "" %>>CNTT</option>
+            <option value="Kinh tế" <%= item?.category === "Kinh tế" ? "selected" : "" %>>Kinh te</option>
+            <option value="Thiếu nhi" <%= item?.category === "Thiếu nhi" ? "selected" : "" %>>Thieu nhi</option>
+        </select>
+
+        <input type="number" name="unit_in_stock" min="0" placeholder="So luong ton" value="<%= item?.unit_in_stock || '' %>" required>
+
+        <input type="number" name="price" min="1" placeholder="Gia" value="<%= item?.price || '' %>" required>
+
+        <input type="date" name="createdAt" value="<%= item?.createdAt ? item.createdAt.split('T')[0] : '' %>">
+
+        <input type="file" name="image">
+
+        <% if (item?.coverImageUrl) { %>
+            <img src="<%= item.coverImageUrl %>" width="220" alt="Anh bia" class="form-cover">
+        <% } %>
+
+        <button type="submit" class="btn btn-primary"><%= item ? "Cap nhat" : "Them moi" %></button>
+    </form>
+
+    <br>
+    <a href="/books" class="btn">Quay lai danh sach</a>
+</body>
+
+</html>
